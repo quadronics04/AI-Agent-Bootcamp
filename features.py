@@ -13,7 +13,7 @@ from utils import (
     print_heading,
     read_multiline_input,
 )
-
+from planner import plan_and_execute
 
 def explain_concept() -> None:
     """Ask the AI to explain a concept."""
@@ -144,3 +144,23 @@ def create_study_plan() -> None:
 
     print_heading("YOUR STUDY PLAN")
     print(answer)
+
+def use_agent_planner() -> None:
+    """
+    Ask the planner to break down and complete a complex goal.
+    """
+
+    print("\n--- AI Agent Planner ---")
+
+    user_goal = input(
+        "\nDescribe the goal you want the agent to complete:\n"
+    ).strip()
+
+    if not user_goal:
+        print("\nThe goal cannot be empty.")
+        return
+
+    result = plan_and_execute(user_goal)
+
+    print("\n--- Final Result ---\n")
+    print(result)
