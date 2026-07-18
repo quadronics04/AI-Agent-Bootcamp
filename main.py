@@ -7,6 +7,7 @@ from features import (
     generate_quiz,
     summarize_text,
 )
+from memory import clear_memory, show_memory
 from utils import print_heading
 
 
@@ -21,7 +22,9 @@ def show_menu() -> None:
     print("4. Explain Python code")
     print("5. Ask a general question")
     print("6. Create a study plan")
-    print("7. Exit")
+    print("7. Show conversation memory")
+    print("8. Clear conversation memory")
+    print("9. Exit")
 
 
 def main() -> None:
@@ -51,11 +54,25 @@ def main() -> None:
             create_study_plan()
 
         elif choice == "7":
+            show_memory()
+
+        elif choice == "8":
+            confirm = input(
+                "\nAre you sure you want to clear memory? "
+                "(yes/no): "
+            ).strip().lower()
+
+            if confirm == "yes":
+                clear_memory()
+            else:
+                print("\nMemory was not cleared.")
+
+        elif choice == "9":
             print("\nThank you for using Study AI Assistant.")
             break
 
         else:
-            print("\nInvalid choice. Enter a number from 1 to 7.")
+            print("\nInvalid choice. Enter a number from 1 to 9.")
 
 
 if __name__ == "__main__":
