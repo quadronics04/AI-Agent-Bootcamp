@@ -14,6 +14,7 @@ from utils import (
     read_multiline_input,
 )
 from planner import plan_and_execute
+from agent import process_request
 
 def explain_concept() -> None:
     """Ask the AI to explain a concept."""
@@ -92,21 +93,24 @@ def explain_python_code() -> None:
 
 
 def ask_general_question() -> None:
-    """Ask the AI a general question."""
+    """
+    Ask a general question or process a supported tool request.
+    """
 
-    print_heading("GENERAL QUESTION")
+    print("\n--- Ask a General Question ---")
 
-    question = input("\nEnter your question: ").strip()
+    user_input = input(
+        "\nEnter your question:\n"
+    ).strip()
 
-    if not question:
-        print("The question cannot be empty.")
+    if not user_input:
+        print("\nQuestion cannot be empty.")
         return
 
-    prompt = create_general_question_prompt(question)
-    answer = ask_ai(prompt)
+    response = process_request(user_input)
 
-    print_heading("AI RESPONSE")
-    print(answer)
+    print("\n--- Response ---\n")
+    print(response)
 
 
 def create_study_plan() -> None:
