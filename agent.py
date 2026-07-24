@@ -1,6 +1,10 @@
 from ai_client import ask_ai
 from calculator import calculate
-from tool_selector import choose_tool
+from math_parser import extract_math_expression
+from tool_selector import (
+    choose_tool,
+    is_direct_math_expression,
+)
 
 
 def process_request(user_input: str) -> str:
@@ -11,6 +15,16 @@ def process_request(user_input: str) -> str:
     selected_tool = choose_tool(user_input)
 
     if selected_tool == "calculator":
-        return calculate(user_input)
+        if is_direct_math_expression(user_input):
+            expression = user_input
+        else:
+            expression = extract_math_expression(user_input)
+
+        result = calculate(expression)
+
+        return (
+            f"Expression: {expression}\n"
+            f"Result: {result}"
+        )
 
     return ask_ai(user_input)

@@ -17,7 +17,7 @@ validate_config()
 client = genai.Client(api_key=GEMINI_API_KEY)
 
 
-def _send_request(prompt: str, max_attempts: int = 3) -> str:
+def _send_request(prompt: str, max_attempts: int = 3,show_status = True) -> str:
     """
     Send a prompt to Gemini.
 
@@ -30,7 +30,8 @@ def _send_request(prompt: str, max_attempts: int = 3) -> str:
 
     for attempt in range(1, max_attempts + 1):
         try:
-            print("\nThinking...\n")
+            if show_status:
+                print("\nThinking...\n")
 
             response = client.models.generate_content(
                 model=MODEL_NAME,
@@ -94,7 +95,7 @@ Instructions:
 """.strip()
 
 
-def ask_ai(prompt: str, max_attempts: int = 3) -> str:
+def ask_ai(prompt: str, max_attempts: int = 3,) -> str:
     """
     Handle normal user-to-assistant conversation.
 
@@ -108,7 +109,8 @@ def ask_ai(prompt: str, max_attempts: int = 3) -> str:
 
     answer = _send_request(
         combined_prompt,
-        max_attempts=max_attempts
+        max_attempts=max_attempts,
+        show_status = True
     )
 
     if not is_error_response(answer):
@@ -133,7 +135,8 @@ def ask_ai_internal(
 
     return _send_request(
         prompt,
-        max_attempts=max_attempts
+        max_attempts=max_attempts,
+        show_status = True
     )
 
 
