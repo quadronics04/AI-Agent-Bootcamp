@@ -7,6 +7,7 @@ from features import (
     generate_quiz,
     summarize_text,
     use_agent_planner,
+    multi_step_agent
 )
 from memory import clear_memory, show_memory
 from utils import print_heading
@@ -22,11 +23,12 @@ def show_menu() -> None:
     print("3. Generate a quiz")
     print("4. Explain Python code")
     print("5. Ask a general question")
-    print("6. Create a study plan")
-    print("7. Use AI agent planner")
-    print("8. Show conversation memory")
-    print("9. Clear conversation memory")
-    print("10. Exit")
+    print("6. Multi-Step Workflow Agent")
+    print("7. Create a study plan")
+    print("8. Use AI agent planner")
+    print("9. Show conversation memory")
+    print("10. Clear conversation memory")
+    print("11. Exit")
 
 
 def main() -> None:
@@ -53,15 +55,18 @@ def main() -> None:
             ask_general_question()
 
         elif choice == "6":
-            create_study_plan()
+            multi_step_agent()
 
         elif choice == "7":
-            use_agent_planner()
+            create_study_plan()
 
         elif choice == "8":
-            show_memory()
+            use_agent_planner()
 
         elif choice == "9":
+            show_memory()
+
+        elif choice == "10":
             confirm = input(
                 "\nAre you sure you want to clear memory? "
                 "(yes/no): "
@@ -72,7 +77,7 @@ def main() -> None:
             else:
                 print("\nMemory was not cleared.")
 
-        elif choice == "10":
+        elif choice == "11":
             print("\nThank you for using Study AI Assistant.")
             break
 

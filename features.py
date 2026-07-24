@@ -15,6 +15,7 @@ from utils import (
 )
 from planner import plan_and_execute
 from agent import process_request
+from workflow_agent import process_workflow_request
 
 def explain_concept() -> None:
     """Ask the AI to explain a concept."""
@@ -168,3 +169,21 @@ def use_agent_planner() -> None:
 
     print("\n--- Final Result ---\n")
     print(result)
+
+def multi_step_agent() -> None:
+    """
+    Run the multi-step workflow agent.
+    """
+
+    user_request = input(
+        "\nEnter a multi-step request: "
+    ).strip()
+
+    if not user_request:
+        print("\nRequest cannot be empty.")
+        return
+
+    answer = process_workflow_request(user_request)
+
+    print("\n--- Final Answer ---\n")
+    print(answer)
