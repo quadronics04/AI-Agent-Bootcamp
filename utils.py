@@ -68,3 +68,10 @@ def get_positive_number(message: str) -> float | None:
     except ValueError:
         print("Please enter a valid number.")
         return None
+
+def print_status(message: str) -> None:
+    """
+    Display a short agent progress message.
+    """
+
+    print(f"\n{message}\n")

@@ -1,5 +1,6 @@
 from ai_client import ask_ai_internal, is_error_response
 from memory import add_assistant_message, add_user_message
+from utils import print_status
 
 
 def create_plan(user_goal: str) -> str:
@@ -61,10 +62,10 @@ Rules:
 def plan_and_execute(user_goal: str) -> str:
     """
     Create an internal plan, execute it, and save only the
-    real user request and final answer.
+    user goal and final response.
     """
 
-    print("\nCreating a plan...\n")
+    print_status("Creating an execution plan...")
 
     plan = create_plan(user_goal)
 
@@ -74,14 +75,13 @@ def plan_and_execute(user_goal: str) -> str:
     print("\n--- Agent Plan ---\n")
     print(plan)
 
-    print("\nExecuting the plan...\n")
+    print_status("Executing the plan...")
 
     final_result = execute_plan(user_goal, plan)
 
     if is_error_response(final_result):
         return final_result
 
-    # Store only the real conversation
     add_user_message(user_goal)
     add_assistant_message(final_result)
 

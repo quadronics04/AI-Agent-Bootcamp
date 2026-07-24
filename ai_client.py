@@ -11,28 +11,31 @@ from memory import (
 )
 
 
-# Check configuration before creating the Gemini client
 validate_config()
 
 client = genai.Client(api_key=GEMINI_API_KEY)
 
 
-def _send_request(prompt: str, max_attempts: int = 3,show_status = True) -> str:
+def _send_request(
+    prompt: str,
+    max_attempts: int = 3,
+    show_status: bool = False,
+    status_message: str = "Thinking..."
+) -> str:
     """
     Send a prompt to Gemini.
 
-    This private helper:
-    - handles the API request,
-    - retries temporary server errors,
-    - does not use conversation memory,
-    - does not save conversation memory.
+    This helper:
+    - handles retries,
+    - optionally displays a status message,
+    - does not directly manage conversation memory.
     """
+
+    if show_status:
+        print(f"\n{status_message}\n")
 
     for attempt in range(1, max_attempts + 1):
         try:
-            if show_status:
-                print("\nThinking...\n")
-
             response = client.models.generate_content(
                 model=MODEL_NAME,
                 contents=prompt
@@ -95,14 +98,14 @@ Instructions:
 """.strip()
 
 
-def ask_ai(prompt: str, max_attempts: int = 3,) -> str:
+def ask_ai(
+    prompt: str,
+    max_attempts: int = 3,
+    show_status: bool = True,
+    status_message: str = "Thinking..."
+) -> str:
     """
-    Handle normal user-to-assistant conversation.
-
-    This function:
-    - reads previous conversation memory,
-    - sends the request to Gemini,
-    - saves the successful exchange.
+    Handle normal user conversation with memory.
     """
 
     combined_prompt = build_prompt_with_memory(prompt)
@@ -110,7 +113,8 @@ def ask_ai(prompt: str, max_attempts: int = 3,) -> str:
     answer = _send_request(
         combined_prompt,
         max_attempts=max_attempts,
-        show_status = True
+        show_status=show_status,
+        status_message=status_message
     )
 
     if not is_error_response(answer):
@@ -125,18 +129,13 @@ def ask_ai_internal(
     max_attempts: int = 3
 ) -> str:
     """
-    Handle private agent operations.
-
-    This function:
-    - does not read conversation memory,
-    - does not save anything to memory,
-    - is used by planners, tools, critics, and other internal components.
+    Handle private agent operations silently.
     """
 
     return _send_request(
         prompt,
         max_attempts=max_attempts,
-        show_status = True
+        show_status=False
     )
 
 
