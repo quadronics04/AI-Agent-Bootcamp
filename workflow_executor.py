@@ -3,6 +3,7 @@ from typing import Any
 from ai_client import ask_ai_internal
 from calculator import calculate
 from math_parser import extract_math_expression
+from metrics import get_metrics
 
 def execute_step(
     tool: str,
@@ -14,7 +15,14 @@ def execute_step(
     Execute one workflow step.
     """
 
-    context = _format_previous_outputs(previous_outputs)
+    metrics = get_metrics()
+
+    if metrics is not None:
+        metrics.record_tool(tool)
+
+    context = _format_previous_outputs(
+        previous_outputs
+    )
 
     if tool == "calculator":
         return _execute_calculator_step(

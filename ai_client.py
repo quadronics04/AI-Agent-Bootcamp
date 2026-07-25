@@ -9,6 +9,7 @@ from memory import (
     add_user_message,
     get_context,
 )
+from metrics import get_metrics
 
 
 validate_config()
@@ -36,9 +37,14 @@ def _send_request(
 
     for attempt in range(1, max_attempts + 1):
         try:
+            metrics = get_metrics()
+
+            if metrics is not None:
+                metrics.record_llm_call()
+
             response = client.models.generate_content(
-                model=MODEL_NAME,
-                contents=prompt
+            model=MODEL_NAME,
+            contents=prompt,
             )
 
             if response.text:
@@ -47,11 +53,17 @@ def _send_request(
             return "The AI returned an empty response."
 
         except ServerError:
+
             if attempt == max_attempts:
                 return (
-                    "Gemini is currently busy or unavailable. "
+                    "Gemini is currently unavailable. "
                     "Please try again later."
                 )
+
+            metrics = get_metrics()
+
+            if metrics is not None:
+                metrics.record_retry()
 
             wait_time = 2 ** (attempt - 1)
 

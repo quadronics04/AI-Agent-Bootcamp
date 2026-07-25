@@ -3,7 +3,6 @@ from features import (
     ask_general_question,
     create_study_plan,
     explain_concept,
-    explain_python_code,
     generate_quiz,
     summarize_text,
     use_agent_planner,
@@ -21,14 +20,13 @@ def show_menu() -> None:
     print("1. Explain a concept")
     print("2. Summarise text")
     print("3. Generate a quiz")
-    print("4. Explain Python code")
-    print("5. Ask a general question")
-    print("6. Multi-Step Workflow Agent")
-    print("7. Create a study plan")
-    print("8. Use AI agent planner")
-    print("9. Show conversation memory")
-    print("10. Clear conversation memory")
-    print("11. Exit")
+    print("4. Ask a general question")
+    print("5. Multi-Step Workflow Agent")
+    print("6. Create a study plan")
+    print("7. Use AI agent planner")
+    print("8. Show conversation memory")
+    print("9. Clear conversation memory")
+    print("10. Exit")
 
 
 def main() -> None:
@@ -49,24 +47,21 @@ def main() -> None:
             generate_quiz()
 
         elif choice == "4":
-            explain_python_code()
-
-        elif choice == "5":
             ask_general_question()
 
-        elif choice == "6":
+        elif choice == "5":
             multi_step_agent()
 
-        elif choice == "7":
+        elif choice == "6":
             create_study_plan()
 
-        elif choice == "8":
+        elif choice == "7":
             use_agent_planner()
 
-        elif choice == "9":
+        elif choice == "8":
             show_memory()
 
-        elif choice == "10":
+        elif choice == "9":
             confirm = input(
                 "\nAre you sure you want to clear memory? "
                 "(yes/no): "
@@ -77,7 +72,7 @@ def main() -> None:
             else:
                 print("\nMemory was not cleared.")
 
-        elif choice == "11":
+        elif choice == "10":
             print("\nThank you for using Study AI Assistant.")
             break
 
